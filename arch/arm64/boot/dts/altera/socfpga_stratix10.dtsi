@@ -24,18 +24,18 @@
 	#address-cells = <2>;
 	#size-cells = <2>;
 
-	reserved-memory {
-		#address-cells = <2>;
-		#size-cells = <2>;
-		ranges;
+	// reserved-memory {
+	// 	#address-cells = <2>;
+	// 	#size-cells = <2>;
+	// 	ranges;
 
-		service_reserved: svcbuffer@0 {
-                       compatible = "shared-dma-pool";
-                       reg = <0x0 0x0 0x0 0x1000000>;
-                       alignment = <0x1000>;
-                       no-map;
-               };
-	};
+	// 	service_reserved: svcbuffer@0 {
+        //                compatible = "shared-dma-pool";
+        //                reg = <0x0 0x0 0x0 0x1000000>;
+        //                alignment = <0x1000>;
+        //                no-map;
+        //        };
+	// };
 
 	cpus {
 		#address-cells = <1>;
@@ -96,6 +96,12 @@
 		      <0x0 0xfffc2000 0x0 0x2000>,
 		      <0x0 0xfffc4000 0x0 0x2000>,
 		      <0x0 0xfffc6000 0x0 0x2000>;
+	};
+
+	spi_uart_clock: spi-uart-xtal {
+		#clock-cells = <0>;
+		compatible = "fixed-clock";
+		clock-frequency = <3686400>;
 	};
 
 	soc {
@@ -528,12 +534,12 @@
 			status = "disabled";
 		};
 
-		firmware {
-			svc {
-				compatible = "intel,stratix10-svc";
-				method = "smc";
-				memory-region = <&service_reserved>;
-			};
-		};
+		// firmware {
+		// 	svc {
+		// 		compatible = "intel,stratix10-svc";
+		// 		method = "smc";
+		// 		memory-region = <&service_reserved>;
+		// 	};
+		// };
 	};
 };
