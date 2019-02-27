@@ -20,7 +20,7 @@
 	model = "SoCFPGA Stratix 10 SoCDK";
 
 	aliases {
-		serial0 = &uart0;
+		serial0 = &uart1;
 	};
 
 	chosen {
@@ -62,7 +62,7 @@
 		clkmgr@ffd10000 {
 			clocks {
 				osc1 {
-					clock-frequency = <25000000>;
+					clock-frequency = <125000000>;
 				};
 			};
 		};
@@ -106,7 +106,7 @@
 	bus-width = <4>;
 };
 
-&uart0 {
+&uart1 {
 	status = "okay";
 };
 
@@ -115,33 +115,20 @@
 	disable-over-current;
 };
 
-&i2c1 {
+&i2c0 {
 	status = "okay";
 	clock-frequency = <100000>;
-	i2c-sda-falling-time-ns = <890>;  /* hcnt */
-	i2c-sdl-falling-time-ns = <890>;  /* lcnt */
+	i2c-sda-falling-time-ns = <300>;  /* hcnt */
+	i2c-sdl-falling-time-ns = <300>;  /* lcnt */
 
-	adc@14 {
-		compatible = "lltc,ltc2497";
-		reg = <0x14>;
-		vref-supply = <&ref_033v>;
-	};
+};
 
-	temp@4c {
-		compatible = "maxim,max1619";
-		reg = <0x4c>;
-	};
+&i2c2 {
+	status = "okay";
+	clock-frequency = <100000>;
+	i2c-sda-falling-time-ns = <300>;  /* hcnt */
+	i2c-sdl-falling-time-ns = <300>;  /* lcnt */
 
-	eeprom@51 {
-		compatible = "atmel,24c32";
-		reg = <0x51>;
-		pagesize = <32>;
-	};
-
-	rtc@68 {
-		compatible = "dallas,ds1339";
-		reg = <0x68>;
-	};
 };
 
 &qspi {
