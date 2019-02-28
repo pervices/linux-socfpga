@@ -51,15 +51,11 @@
 		clkmgr@ffd10000 {
 			clocks {
 				osc1 {
-					clock-frequency = <125000000>;
+					clock-frequency = <100000000>;
 				};
 			};
 		};
 	};
-};
-
-&gpio1 {
-	status = "disabled";
 };
 
 &gmac0 {
@@ -84,7 +80,7 @@
 	rxdv-skew-ps = <420>; /* 0ps */
 	rxc-skew-ps = <1680>; /* 780ps */
 	max-frame-size = <3800>;
-	status = "disabled";
+	status = "okay";
 };
 
 &mmc {
@@ -99,13 +95,13 @@
 	status = "okay";
 };
 
-&usb0 {
+&usb1 {
 	status = "disabled";
 	disable-over-current;
 };
 
 &i2c0 {
-	status = "disabled";
+	status = "okay";
 	clock-frequency = <100000>;
 	i2c-sda-falling-time-ns = <300>;  /* hcnt */
 	i2c-sdl-falling-time-ns = <300>;  /* lcnt */
@@ -113,7 +109,7 @@
 };
 
 &i2c2 {
-	status = "disabled";
+	status = "okay";
 	clock-frequency = <100000>;
 	i2c-sda-falling-time-ns = <300>;  /* hcnt */
 	i2c-sdl-falling-time-ns = <300>;  /* lcnt */
