@@ -14,6 +14,7 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "dt-bindings/interrupt-controller/irq.h"
 #include "socfpga_stratix10.dtsi"
 
 / {
@@ -38,6 +39,12 @@
 		regulator-name = "0.33V";
 		regulator-min-microvolt = <330000>;
 		regulator-max-microvolt = <330000>;
+	};
+
+	spi_uart_clock: spi_uart_xtal {
+		#clock-cells = <0>;
+		compatible = "fixed-clock";
+		clock-frequency = <3686400>;
 	};
 
 	soc {
@@ -111,6 +118,74 @@
 	i2c-sda-falling-time-ns = <300>;  /* hcnt */
 	i2c-sdl-falling-time-ns = <300>;  /* lcnt */
 
+};
+
+&gpio0 {
+	status = "okay";
+};
+
+&gpio1 {
+	status = "okay";
+};
+
+&spi0 {
+	status = "okay";
+	max14830@0 {
+		status = "okay";
+		compatible = "maxim,max14830";
+		reg = <0x0>;
+		spi-max-frequency = <10000000>;
+		clocks = <&spi_uart_clock>;
+		clock-names = "xtal";
+		interrupt-parent = <&porta>;
+		// pin 8 (index starting at 0) of porta
+		// (IOA_9) is an Edge-Sensitive Active-Low interrupt
+		interrupts = <8 IRQ_TYPE_EDGE_FALLING>;
+		gpio-controller;
+		#gpio-cells = <2>;
+	};
+	max14830@1 {
+		status = "okay";
+		compatible = "maxim,max14830";
+		reg = <0x1>;
+		spi-max-frequency = <10000000>;
+		clocks = <&spi_uart_clock>;
+		clock-names = "xtal";
+		interrupt-parent = <&porta>;
+		// pin 10 (index starting at 0) of porta
+		// (IOA_11) is an Edge-Sensitive Active-Low interrupt
+		interrupts = <10 IRQ_TYPE_EDGE_FALLING>;
+		gpio-controller;
+		#gpio-cells = <2>;
+	};
+	max14830@2 {
+		status = "okay";
+		compatible = "maxim,max14830";
+		reg = <0x2>;
+		spi-max-frequency = <10000000>;
+		clocks = <&spi_uart_clock>;
+		clock-names = "xtal";
+		interrupt-parent = <&portb>;
+		// pin 15 (index starting at 0) of portb
+		// (IOB_16) is an Edge-Sensitive Active-Low interrupt
+		interrupts = <15 IRQ_TYPE_EDGE_FALLING>;
+		gpio-controller;
+		#gpio-cells = <2>;
+	};
+	max14830@3 {
+		status = "okay";
+		compatible = "maxim,max14830";
+		reg = <0x3>;
+		spi-max-frequency = <10000000>;
+		clocks = <&spi_uart_clock>;
+		clock-names = "xtal";
+		interrupt-parent = <&portb>;
+		// pin 17 (index starting at 0) of portb
+		// (IOB_18) is an Edge-Sensitive Active-Low interrupt
+		interrupts = <17 IRQ_TYPE_EDGE_FALLING>;
+		gpio-controller;
+		#gpio-cells = <2>;
+	};
 };
 
 &qspi {
