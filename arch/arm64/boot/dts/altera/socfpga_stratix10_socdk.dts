@@ -86,7 +86,7 @@
 &mmc {
 	status = "okay";
 	num-slots = <1>;
-	cap-sd-highspeed;
+	//cap-sd-highspeed;
 	broken-cd;
 	bus-width = <4>;
 };
@@ -98,14 +98,6 @@
 &usb1 {
 	status = "disabled";
 	disable-over-current;
-};
-
-&i2c0 {
-	status = "okay";
-	clock-frequency = <100000>;
-	i2c-sda-falling-time-ns = <300>;  /* hcnt */
-	i2c-sdl-falling-time-ns = <300>;  /* lcnt */
-
 };
 
 &i2c2 {
@@ -130,7 +122,7 @@
 		status = "okay";
 		compatible = "maxim,max14830";
 		reg = <0x0>;
-		spi-max-frequency = <10000000>;
+		spi-max-frequency = <500000>;
 		clocks = <&spi_uart_clock>;
 		clock-names = "xtal";
 		interrupt-parent = <&porta>;
@@ -144,7 +136,7 @@
 		status = "okay";
 		compatible = "maxim,max14830";
 		reg = <0x1>;
-		spi-max-frequency = <10000000>;
+		spi-max-frequency = <500000>;
 		clocks = <&spi_uart_clock>;
 		clock-names = "xtal";
 		interrupt-parent = <&porta>;
@@ -158,7 +150,7 @@
 		status = "okay";
 		compatible = "maxim,max14830";
 		reg = <0x2>;
-		spi-max-frequency = <10000000>;
+		spi-max-frequency = <500000>;
 		clocks = <&spi_uart_clock>;
 		clock-names = "xtal";
 		interrupt-parent = <&portb>;
@@ -172,7 +164,7 @@
 		status = "okay";
 		compatible = "maxim,max14830";
 		reg = <0x3>;
-		spi-max-frequency = <10000000>;
+		spi-max-frequency = <500000>;
 		clocks = <&spi_uart_clock>;
 		clock-names = "xtal";
 		interrupt-parent = <&portb>;
