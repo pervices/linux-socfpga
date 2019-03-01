@@ -51,7 +51,7 @@
 		clkmgr@ffd10000 {
 			clocks {
 				osc1 {
-					clock-frequency = <100000000>;
+					clock-frequency = <125000000>;
 				};
 			};
 		};
