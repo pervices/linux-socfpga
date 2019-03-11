@@ -131,6 +131,7 @@
 		interrupts = <8 IRQ_TYPE_EDGE_FALLING>;
 		gpio-controller;
 		#gpio-cells = <2>;
+		clock-to-gpio;
 	};
 	max14830@1 {
 		status = "okay";

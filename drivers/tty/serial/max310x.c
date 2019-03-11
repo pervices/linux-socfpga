@@ -35,8 +35,9 @@
 #define MAX310X_UART_NRMAX		16
 
 /* MAX310X register definitions */
-#define MAX310X_RHR_REG			(0x00) /* RX FIFO */
-#define MAX310X_THR_REG			(0x00) /* TX FIFO */
+#define MAX310X_REG_00			(0x00) /* RX FIFO */
+#define MAX310X_RHR_REG			MAX310X_REG_00 /* RX FIFO */
+#define MAX310X_THR_REG			MAX310X_REG_00 /* TX FIFO */
 #define MAX310X_IRQEN_REG		(0x01) /* IRQ enable */
 #define MAX310X_IRQSTS_REG		(0x02) /* IRQ status */
 #define MAX310X_LSR_IRQEN_REG		(0x03) /* LSR IRQ enable */
@@ -76,6 +77,7 @@
 #define MAX310X_GLOBALCMD_REG		MAX310X_REG_1F /* Global Command (WO) */
 
 /* Extended registers */
+#define MAX310X_TXSYNCH_EXTREG		MAX310X_REG_00 /* Tx Synch */
 #define MAX310X_REVID_EXTREG		MAX310X_REG_05 /* Revision ID */
 
 /* IRQ register bits */
@@ -233,6 +235,8 @@
 /* Global commands */
 #define MAX310X_EXTREG_ENBL		(0xce)
 #define MAX310X_EXTREG_DSBL		(0xcd)
+
+#define MAX310X_CLOCK_TO_GPIO		(0x80)
 
 /* Misc definitions */
 #define MAX310X_FIFO_SIZE		(128)
@@ -397,6 +401,21 @@ static int max14830_detect(struct device *dev)
 			"%s ID 0x%02x does not match\n", s->devtype->name, val);
 		return -ENODEV;
 	}
+
+	return 0;
+}
+
+static int max14830_clock_to_gpio(struct max310x_port *s)
+{
+	int ret;
+
+	ret = regmap_write(s->regmap, MAX310X_GLOBALCMD_REG,
+			   MAX310X_EXTREG_ENBL);
+	if (ret)
+		return ret;
+
+	regmap_write(s->regmap, MAX310X_TXSYNCH_EXTREG, MAX310X_CLOCK_TO_GPIO);
+	regmap_write(s->regmap, MAX310X_GLOBALCMD_REG, MAX310X_EXTREG_DSBL);
 
 	return 0;
 }
@@ -1168,6 +1187,10 @@ static int max310x_probe(struct device *dev, struct max310x_devtype *devtype,
 		regmap_update_bits(s->regmap, MAX310X_MODE1_REG + offs,
 				   MAX310X_MODE1_AUTOSLEEP_BIT,
 				   MAX310X_MODE1_AUTOSLEEP_BIT);
+	}
+
+	if (of_find_property(dev->of_node, "clock-to-gpio", NULL)) {
+		max14830_clock_to_gpio(s);
 	}
 
 	uartclk = max310x_set_ref_clk(s, freq, xtal);
