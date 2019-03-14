@@ -22,6 +22,7 @@
 
 	aliases {
 		serial0 = &uart1;
+		ethernet0 = &gmac1;
 	};
 
 	chosen {
@@ -59,8 +60,14 @@
 };
 
 &gmac0 {
+	status = "disabled";
+
 	phy-mode = "rgmii";
 	phy-addr = <0xffffffff>; /* probe for phy addr */
+
+	interrupt-parent = <&portb>;
+	interrupts = <19 IRQ_TYPE_LEVEL_LOW>;
+	altr,sysmgr-syscon = <&sysmgr 0x00000044 0>;
 
 	/*
 	 * All skews are offset since hardware skew values for the ksz9031
@@ -71,16 +78,49 @@
 	txd1-skew-ps = <0>; /* -420ps */
 	txd2-skew-ps = <0>; /* -420ps */
 	txd3-skew-ps = <0>; /* -420ps */
-	rxd0-skew-ps = <420>; /* 0ps */
-	rxd1-skew-ps = <420>; /* 0ps */
-	rxd2-skew-ps = <420>; /* 0ps */
-	rxd3-skew-ps = <420>; /* 0ps */
 	txen-skew-ps = <0>; /* -420ps */
-	txc-skew-ps = <900>; /* 0ps */
-	rxdv-skew-ps = <420>; /* 0ps */
-	rxc-skew-ps = <1680>; /* 780ps */
+	txc-skew-ps  = <1860>; /* 960ps */
+
+	rxd0-skew-ps = <0>; /* -420ps */
+	rxd1-skew-ps = <0>; /* -420ps */
+	rxd2-skew-ps = <0>; /* -420ps */
+	rxd3-skew-ps = <0>; /* -420ps */
+	rxdv-skew-ps = <0>; /* -420ps */
+	rxc-skew-ps = <1860>; /* 960ps */
+
 	max-frame-size = <3800>;
+};
+
+&gmac1 {
 	status = "okay";
+
+	phy-mode = "rgmii";
+	phy-addr = <0xffffffff>; /* probe for phy addr */
+
+	interrupt-parent = <&portb>;
+	interrupts = <20 IRQ_TYPE_LEVEL_LOW>;
+	altr,sysmgr-syscon = <&sysmgr 0x00000048 0>;
+
+	/*
+	 * All skews are offset since hardware skew values for the ksz9031
+	 * range from a negative skew to a positive skew.
+	 * See the micrel-ksz90x1.txt Documentation file for details.
+	 */
+	txd0-skew-ps = <0>; /* -420ps */
+	txd1-skew-ps = <0>; /* -420ps */
+	txd2-skew-ps = <0>; /* -420ps */
+	txd3-skew-ps = <0>; /* -420ps */
+	txen-skew-ps = <0>; /* -420ps */
+	txc-skew-ps  = <1860>; /* 960ps */
+
+	rxd0-skew-ps = <0>; /* -420ps */
+	rxd1-skew-ps = <0>; /* -420ps */
+	rxd2-skew-ps = <0>; /* -420ps */
+	rxd3-skew-ps = <0>; /* -420ps */
+	rxdv-skew-ps = <0>; /* -420ps */
+	rxc-skew-ps = <1860>; /* 960ps */
+
+	max-frame-size = <3800>;
 };
 
 &mmc {
