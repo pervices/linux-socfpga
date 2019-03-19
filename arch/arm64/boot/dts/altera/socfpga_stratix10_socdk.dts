@@ -48,7 +48,14 @@
 		clock-frequency = <3686400>;
 	};
 
+
 	soc {
+		usbphy0: usbphy@0 {
+			#phy-cells = <0>;
+			compatible = "usb-nop-xceiv";
+			status = "okay";
+		};
+
 		clkmgr@ffd10000 {
 			clocks {
 				osc1 {
@@ -136,8 +143,10 @@
 };
 
 &usb1 {
-	status = "disabled";
+	status = "okay";
 	disable-over-current;
+	phys = <&usbphy0>;
+	phy-names = "usb2-phy";
 };
 
 &i2c2 {
