@@ -145,6 +145,7 @@
 &usb1 {
 	status = "okay";
 	disable-over-current;
+	dr_mode = "host";
 	phys = <&usbphy0>;
 	phy-names = "usb2-phy";
 };
