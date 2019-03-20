@@ -138,6 +138,10 @@
 	bus-width = <4>;
 };
 
+&uart0 {
+	status = "disabled";
+};
+
 &uart1 {
 	status = "okay";
 };
