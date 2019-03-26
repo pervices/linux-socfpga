@@ -90,12 +90,12 @@
 			txen-skew-ps = <0>; /* -420ps */
 			txc-skew-ps  = <1860>; /* 960ps */
 
-			rxd0-skew-ps = <0>; /* -420ps */
-			rxd1-skew-ps = <0>; /* -420ps */
-			rxd2-skew-ps = <0>; /* -420ps */
-			rxd3-skew-ps = <0>; /* -420ps */
-			rxdv-skew-ps = <0>; /* -420ps */
-			rxc-skew-ps = <1860>; /* 960ps */
+			rxd0-skew-ps = <420>; /* 0ps */
+			rxd1-skew-ps = <420>; /* 0ps */
+			rxd2-skew-ps = <420>; /* 0ps */
+			rxd3-skew-ps = <420>; /* 0ps */
+			rxdv-skew-ps = <420>; /* 0ps */
+			rxc-skew-ps  = <900>; /* 0ps */
 		};
 	};
 };
@@ -113,7 +113,7 @@
 
 	max-frame-size = <9000>;
 
-	mdio0 {
+	mdio1 {
 		#address-cells = <1>;
 		#size-cells = <0>;
 		compatible = "snps,dwmac-mdio";
@@ -132,12 +132,12 @@
 			txen-skew-ps = <0>; /* -420ps */
 			txc-skew-ps  = <1860>; /* 960ps */
 
-			rxd0-skew-ps = <0>; /* -420ps */
-			rxd1-skew-ps = <0>; /* -420ps */
-			rxd2-skew-ps = <0>; /* -420ps */
-			rxd3-skew-ps = <0>; /* -420ps */
-			rxdv-skew-ps = <0>; /* -420ps */
-			rxc-skew-ps = <1860>; /* 960ps */
+			rxd0-skew-ps = <420>; /* 0ps */
+			rxd1-skew-ps = <420>; /* 0ps */
+			rxd2-skew-ps = <420>; /* 0ps */
+			rxd3-skew-ps = <420>; /* 0ps */
+			rxdv-skew-ps = <420>; /* 0ps */
+			rxc-skew-ps  = <900>; /* 0ps */
 		};
 	};
 };
