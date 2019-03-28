@@ -63,12 +63,7 @@
 	status = "disabled";
 	phy-mode = "rgmii";
 	phy-handle = <&phy0>;
-
-	interrupt-parent = <&portb>;
-	// pin 19 (index starting at 0) of portb (IOB_20)
-	interrupts = <19 IRQ_TYPE_LEVEL_LOW>;
 	altr,sysmgr-syscon = <&sysmgr 0x00000044 0>;
-
 	max-frame-size = <9000>;
 
 	mdio0 {
@@ -83,19 +78,19 @@
 			 * range from a negative skew to a positive skew.
 			 * See the micrel-ksz90x1.txt Documentation file for details.
 			 */
-			txd0-skew-ps = <0>; /* -420ps */
-			txd1-skew-ps = <0>; /* -420ps */
-			txd2-skew-ps = <0>; /* -420ps */
-			txd3-skew-ps = <0>; /* -420ps */
-			txen-skew-ps = <0>; /* -420ps */
-			txc-skew-ps  = <1860>; /* 960ps */
+			// txd0-skew-ps = <0>; /* -420ps */
+			// txd1-skew-ps = <0>; /* -420ps */
+			// txd2-skew-ps = <0>; /* -420ps */
+			// txd3-skew-ps = <0>; /* -420ps */
+			// txen-skew-ps = <0>; /* -420ps */
+			// txc-skew-ps  = <1860>; /* 960ps */
 
-			rxd0-skew-ps = <900>; /*  480ps */
-			rxd1-skew-ps = <900>; /*  480ps */
-			rxd2-skew-ps = <900>; /*  480ps */
-			rxd3-skew-ps = <900>; /*  480ps */
-			rxdv-skew-ps = <900>; /*  480ps */
-			rxc-skew-ps  = <0>;   /* -900ps */
+			// rxd0-skew-ps = <720>; /*  300ps */
+			// rxd1-skew-ps = <720>; /*  300ps */
+			// rxd2-skew-ps = <720>; /*  300ps */
+			// rxd3-skew-ps = <720>; /*  300ps */
+			// rxdv-skew-ps = <720>; /*  300ps */
+			// rxc-skew-ps  = <0>;   /* -900ps */
 		};
 	};
 };
@@ -105,12 +100,7 @@
 	status = "okay";
 	phy-mode = "rgmii";
 	phy-handle = <&phy1>;
-
-	interrupt-parent = <&portb>;
-	// pin 20 (index starting at 0) of portb (IOB_21)
-	interrupts = <20 IRQ_TYPE_LEVEL_LOW>;
 	altr,sysmgr-syscon = <&sysmgr 0x00000048 0>;
-
 	max-frame-size = <9000>;
 
 	mdio1 {
@@ -125,19 +115,19 @@
 			 * range from a negative skew to a positive skew.
 			 * See the micrel-ksz90x1.txt Documentation file for details.
 			 */
-			txd0-skew-ps = <0>; /* -420ps */
-			txd1-skew-ps = <0>; /* -420ps */
-			txd2-skew-ps = <0>; /* -420ps */
-			txd3-skew-ps = <0>; /* -420ps */
-			txen-skew-ps = <0>; /* -420ps */
-			txc-skew-ps  = <1860>; /* 960ps */
+			txd0-skew-ps = <0>;	/* -420ps */
+			txd1-skew-ps = <0>; 	/* -420ps */
+			txd2-skew-ps = <0>; 	/* -420ps */
+			txd3-skew-ps = <0>; 	/* -420ps */
+			txen-skew-ps = <0>; 	/* -420ps */
+			txc-skew-ps  = <1860>;	/*  960ps */
 
-			rxd0-skew-ps = <900>; /*  480ps */
-			rxd1-skew-ps = <900>; /*  480ps */
-			rxd2-skew-ps = <900>; /*  480ps */
-			rxd3-skew-ps = <900>; /*  480ps */
-			rxdv-skew-ps = <900>; /*  480ps */
-			rxc-skew-ps  = <0>;   /* -900ps */
+			rxd0-skew-ps = <0>;	/* -420ps */
+			rxd1-skew-ps = <0>; 	/* -420ps */
+			rxd2-skew-ps = <0>; 	/* -420ps */
+			rxd3-skew-ps = <0>; 	/* -420ps */
+			rxdv-skew-ps = <0>; 	/* -420ps */
+			rxc-skew-ps  = <1860>;	/*  960ps */
 		};
 	};
 };
@@ -158,7 +148,7 @@
 };
 
 &usb1 {
-	status = "okay";
+	status = "disabled";
 	disable-over-current;
 };
 
