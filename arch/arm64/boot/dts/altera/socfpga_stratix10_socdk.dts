@@ -175,21 +175,24 @@
 	status = "okay";
 };
 
-&i2c0 {
-	status = "okay";
-	clock-frequency = <100000>;
-	i2c-sda-hold-time-ns = <100>;
-	i2c-sda-falling-time-ns = <300>;  /* hcnt */
-	i2c-sdl-falling-time-ns = <300>;  /* lcnt */
-
-};
-
 &i2c2 {
 	status = "okay";
 	clock-frequency = <100000>;
 	i2c-sda-hold-time-ns = <100>;
 	i2c-sda-falling-time-ns = <300>;  /* hcnt */
 	i2c-sdl-falling-time-ns = <300>;  /* lcnt */
+
+	pca9539@74 {
+		compatible = "nxp,pca9539";
+		reg = <0x74>;
+		gpio-controller;
+		#gpio-cells = <2>;
+	};
+
+	rtc@68 {
+		compatible = "dallas,ds1308";
+		reg = <0x68>;
+	};
 
 };
 
