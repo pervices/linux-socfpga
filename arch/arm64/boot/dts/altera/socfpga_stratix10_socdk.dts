@@ -136,12 +136,12 @@
 			txen-skew-ps = <0>; 	/* -420ps */
 			txc-skew-ps  = <1860>;	/*  960ps */
 
-			rxd0-skew-ps = <0>;	/* -420ps */
-			rxd1-skew-ps = <0>; 	/* -420ps */
-			rxd2-skew-ps = <0>; 	/* -420ps */
-			rxd3-skew-ps = <0>; 	/* -420ps */
-			rxdv-skew-ps = <0>; 	/* -420ps */
-			rxc-skew-ps  = <1860>;	/*  960ps */
+			rxd0-skew-ps = <900>;	/*  480ps */
+			rxd1-skew-ps = <900>; 	/*  480ps */
+			rxd2-skew-ps = <900>; 	/*  480ps */
+			rxd3-skew-ps = <900>; 	/*  480ps */
+			rxdv-skew-ps = <900>; 	/*  480ps */
+			rxc-skew-ps  = <0>;	/* -900ps */
 		};
 	};
 };
