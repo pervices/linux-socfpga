@@ -204,7 +204,7 @@
 		reg = <0x0>;
 		spi-max-frequency = <1000000>;
 		clocks = <&spi_uart_clock>;
-		clock-names = "xtal";
+		clock-names = "osc";
 		interrupt-parent = <&porta>;
 		// pin 8 (index starting at 0) of porta
 		// (IOA_9) is an Edge-Sensitive Active-Low interrupt
@@ -218,7 +218,7 @@
 		reg = <0x1>;
 		spi-max-frequency = <1000000>;
 		clocks = <&spi_uart_clock>;
-		clock-names = "xtal";
+		clock-names = "osc";
 		interrupt-parent = <&porta>;
 		// pin 10 (index starting at 0) of porta
 		// (IOA_11) is an Edge-Sensitive Active-Low interrupt
@@ -232,7 +232,7 @@
 		reg = <0x2>;
 		spi-max-frequency = <1000000>;
 		clocks = <&spi_uart_clock>;
-		clock-names = "xtal";
+		clock-names = "osc";
 		interrupt-parent = <&portb>;
 		// pin 15 (index starting at 0) of portb
 		// (IOB_16) is an Edge-Sensitive Active-Low interrupt
@@ -246,7 +246,7 @@
 		reg = <0x3>;
 		spi-max-frequency = <1000000>;
 		clocks = <&spi_uart_clock>;
-		clock-names = "xtal";
+		clock-names = "osc";
 		interrupt-parent = <&portb>;
 		// pin 17 (index starting at 0) of portb
 		// (IOB_18) is an Edge-Sensitive Active-Low interrupt
