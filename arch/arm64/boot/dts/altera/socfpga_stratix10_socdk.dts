@@ -51,14 +51,20 @@
 		};
 
 		uart2: serial2@80008000 {
-			compatible = "altr,16550-FIFO128", "ns16550a";
-			reg = <0x80008000 0x200>;
+			// compatible = "altr,16550-FIFO128", "ns16550a";
+			// reg = <0x80008000 0x200>;
+			// interrupt-parent = <&intc>;
+			// interrupts = <0 17 4>;
+			// interrupt-names = "FPGA_IRQ00";
+			// clock-frequency = <125000000>;
+			// reg-shift = <2>;
+			// reg-io-width = <4>;
+
+			compatible = "altr,uart-1.0";
+			reg = <0x80008000 0x20>;
 			interrupt-parent = <&intc>;
 			interrupts = <0 17 4>;
-			interrupt-names = "FPGA_IRQ00";
 			clock-frequency = <125000000>;
-			reg-shift = <2>;
-			reg-io-width = <4>;
 			status = "disabled";
 		};
 
@@ -162,7 +168,7 @@
 };
 
 &uart2 {
-	fifo-size = <128>;
+	//fifo-size = <128>;
 	status = "okay";
 };
 
