@@ -26,7 +26,8 @@
 
 #define DRV_NAME "altera_uart"
 #define SERIAL_ALTERA_MAJOR 204
-#define SERIAL_ALTERA_MINOR 213
+// #define SERIAL_ALTERA_MINOR 213
+#define SERIAL_ALTERA_MINOR 187
 
 /*
  * Altera UART register definitions according to the Nios UART datasheet:
