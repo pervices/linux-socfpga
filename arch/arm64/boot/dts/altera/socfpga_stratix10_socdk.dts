@@ -68,6 +68,14 @@
 			status = "disabled";
 		};
 
+		firmware {
+			svc {
+				rsu {
+					compatible = "intel,stratix10-rsu";
+				};
+			};
+		};
+
 	};
 };
 
