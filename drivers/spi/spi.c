@@ -3275,7 +3275,7 @@ int spi_write_then_read(struct spi_device *spi,
 
 	int			status;
 	struct spi_message	message;
-	struct spi_transfer	x[2];
+	struct spi_transfer	x[1];
 	u8			*local_buf;
 
 	/* Use preallocated DMA-safe buffer if we can.  We can't avoid
@@ -3294,23 +3294,19 @@ int spi_write_then_read(struct spi_device *spi,
 
 	spi_message_init(&message);
 	memset(x, 0, sizeof(x));
-	if (n_tx) {
-		x[0].len = n_tx;
-		spi_message_add_tail(&x[0], &message);
-	}
-	if (n_rx) {
-		x[1].len = n_rx;
-		spi_message_add_tail(&x[1], &message);
-	}
+	x[0].len = n_tx + n_rx;
+	spi_message_add_tail(&x[0], &message);
 
 	memcpy(local_buf, txbuf, n_tx);
 	x[0].tx_buf = local_buf;
-	x[1].rx_buf = local_buf + n_tx;
+	x[0].rx_buf = local_buf + n_tx;
 
 	/* do the i/o */
 	status = spi_sync(spi, &message);
+	// Note that when we are reading, the first write (spi address) will be
+	// included in the read data, so we must skip it (+1).
 	if (status == 0)
-		memcpy(rxbuf, x[1].rx_buf, n_rx);
+		memcpy(rxbuf, x[0].rx_buf+1, n_rx);
 
 	if (x[0].tx_buf == buf)
 		mutex_unlock(&lock);
