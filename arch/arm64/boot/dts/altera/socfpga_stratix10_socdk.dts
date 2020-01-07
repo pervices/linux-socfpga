@@ -21,9 +21,9 @@
 	model = "SoCFPGA Stratix 10 SoCDK";
 
 	aliases {
-		serial0 = &uart1;
+		serial0 = &uart0;
 		serial2 = &uart2;
-		ethernet0 = &gmac1;
+		ethernet0 = &gmac0;
 	};
 
 	chosen {
@@ -88,7 +88,7 @@
 };
 
 &gmac0 {
-	status = "disabled";
+	status = "okay";
 	phy-mode = "rgmii";
 	phy-handle = <&phy0>;
 	altr,sysmgr-syscon = <&sysmgr 0x00000044 0>;
@@ -125,7 +125,7 @@
 
 
 &gmac1 {
-	status = "okay";
+	status = "disabled";
 	phy-mode = "rgmii";
 	phy-handle = <&phy1>;
 	altr,sysmgr-syscon = <&sysmgr 0x00000048 0>;
@@ -168,16 +168,21 @@
 };
 
 &uart0 {
-	status = "disabled";
+	status = "okay";
 };
 
 &uart1 {
-	status = "okay";
+	status = "disabled";
 };
 
 &uart2 {
 	//fifo-size = <128>;
 	status = "okay";
+};
+
+&usb0 {
+	status = "okay";
+	
 };
 
 &usb1 {
@@ -189,7 +194,7 @@
 	status = "okay";
 };
 
-&i2c2 {
+&i2c3 {
 	status = "okay";
 	clock-frequency = <100000>;
 	i2c-sda-hold-time-ns = <100>;
@@ -210,50 +215,89 @@
 
 };
 
-&spi0 {
+&i2c4 {
 	status = "okay";
-	max14830@0 {
-		status = "okay";
-		compatible = "maxim,max14830";
-		reg = <0x0>;
-		spi-max-frequency = <2000000>;
-		clocks = <&spi_uart_clock>;
-		clock-names = "osc";
-		interrupt-parent = <&porta>;
-		// pin 8 (index starting at 0) of porta
-		// (IOA_9) is an Edge-Sensitive Active-Low interrupt
-		interrupts = <8 IRQ_TYPE_EDGE_FALLING>;
+	clock-frequency = <100000>;
+	i2c-sda-hold-time-ns = <100>;
+	i2c-sda-falling-time-ns = <300>;  /* hcnt */
+	i2c-sdl-falling-time-ns = <300>;  /* lcnt */
+
+};
+
+&i2c1 {
+	status = "okay";
+	clock-frequency = <100000>;
+	i2c-sda-hold-time-ns = <100>;
+	i2c-sda-falling-time-ns = <300>;  /* hcnt */
+	i2c-sdl-falling-time-ns = <300>;  /* lcnt */
+
+	pca9539@74 {
+		compatible = "nxp,pca9539";
+		reg = <0x74>;
 		gpio-controller;
 		#gpio-cells = <2>;
 	};
-	max14830@1 {
-		status = "okay";
-		compatible = "maxim,max14830";
-		reg = <0x1>;
-		spi-max-frequency = <2000000>;
-		clocks = <&spi_uart_clock>;
-		clock-names = "osc";
-		interrupt-parent = <&porta>;
-		// pin 10 (index starting at 0) of porta
-		// (IOA_11) is an Edge-Sensitive Active-Low interrupt
-		interrupts = <10 IRQ_TYPE_EDGE_FALLING>;
+
+	pca9539@75 {
+		compatible = "nxp,pca9539";
+		reg = <0x75>;
 		gpio-controller;
 		#gpio-cells = <2>;
 	};
-	max14830@2 {
-		status = "okay";
-		compatible = "maxim,max14830";
-		reg = <0x2>;
-		spi-max-frequency = <2000000>;
-		clocks = <&spi_uart_clock>;
-		clock-names = "osc";
-		interrupt-parent = <&portb>;
-		// pin 15 (index starting at 0) of portb
-		// (IOB_16) is an Edge-Sensitive Active-Low interrupt
-		interrupts = <15 IRQ_TYPE_EDGE_FALLING>;
+
+	pca9539@76 {
+		compatible = "nxp,pca9539";
+		reg = <0x76>;
 		gpio-controller;
 		#gpio-cells = <2>;
 	};
+
+};
+
+&spi0 {
+	status = "disabled";
+	// max14830@0 {
+	// 	status = "okay";
+	// 	compatible = "maxim,max14830";
+	// 	reg = <0x0>;
+	// 	spi-max-frequency = <2000000>;
+	// 	clocks = <&spi_uart_clock>;
+	// 	clock-names = "osc";
+	// 	interrupt-parent = <&porta>;
+	// 	// pin 8 (index starting at 0) of porta
+	// 	// (IOA_9) is an Edge-Sensitive Active-Low interrupt
+	// 	interrupts = <8 IRQ_TYPE_EDGE_FALLING>;
+	// 	gpio-controller;
+	// 	#gpio-cells = <2>;
+	// };
+	// max14830@1 {
+	// 	status = "okay";
+	// 	compatible = "maxim,max14830";
+	// 	reg = <0x1>;
+	// 	spi-max-frequency = <2000000>;
+	// 	clocks = <&spi_uart_clock>;
+	// 	clock-names = "osc";
+	// 	interrupt-parent = <&porta>;
+	// 	// pin 10 (index starting at 0) of porta
+	// 	// (IOA_11) is an Edge-Sensitive Active-Low interrupt
+	// 	interrupts = <10 IRQ_TYPE_EDGE_FALLING>;
+	// 	gpio-controller;
+	// 	#gpio-cells = <2>;
+	// };
+	// max14830@2 {
+	// 	status = "okay";
+	// 	compatible = "maxim,max14830";
+	// 	reg = <0x2>;
+	// 	spi-max-frequency = <2000000>;
+	// 	clocks = <&spi_uart_clock>;
+	// 	clock-names = "osc";
+	// 	interrupt-parent = <&portb>;
+	// 	// pin 15 (index starting at 0) of portb
+	// 	// (IOB_16) is an Edge-Sensitive Active-Low interrupt
+	// 	interrupts = <15 IRQ_TYPE_EDGE_FALLING>;
+	// 	gpio-controller;
+	// 	#gpio-cells = <2>;
+	// };
 	// max14830@3 {
 	// 	status = "okay";
 	// 	compatible = "maxim,max14830";
