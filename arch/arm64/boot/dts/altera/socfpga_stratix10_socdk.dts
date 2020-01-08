@@ -125,8 +125,8 @@
 
 
 &gmac1 {
-	status = "disabled";
-	phy-mode = "rgmii";
+	status = "okay";
+	phy-mode = "sgmii";
 	phy-handle = <&phy1>;
 	altr,sysmgr-syscon = <&sysmgr 0x00000048 0>;
 	max-frame-size = <9000>;
@@ -137,25 +137,7 @@
 		compatible = "snps,dwmac-mdio";
 		phy1: ethernet-phy@1 {
 			reg = <4>;
-
-			/*
-			 * All skews are offset since hardware skew values for the ksz9031
-			 * range from a negative skew to a positive skew.
-			 * See the micrel-ksz90x1.txt Documentation file for details.
-			 */
-			txd0-skew-ps = <0>;	/* -420ps */
-			txd1-skew-ps = <0>; 	/* -420ps */
-			txd2-skew-ps = <0>; 	/* -420ps */
-			txd3-skew-ps = <0>; 	/* -420ps */
-			txen-skew-ps = <0>; 	/* -420ps */
-			txc-skew-ps  = <1860>;	/*  960ps */
-
-			rxd0-skew-ps = <900>;	/*  480ps */
-			rxd1-skew-ps = <900>; 	/*  480ps */
-			rxd2-skew-ps = <900>; 	/*  480ps */
-			rxd3-skew-ps = <900>; 	/*  480ps */
-			rxdv-skew-ps = <900>; 	/*  480ps */
-			rxc-skew-ps  = <0>;	/* -900ps */
+			compatible = "marvell,88E1111", "ethernet-phy-ieee802.3-c22";
 		};
 	};
 };
