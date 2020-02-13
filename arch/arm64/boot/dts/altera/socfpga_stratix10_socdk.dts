@@ -164,6 +164,7 @@
 
 &usb0 {
 	status = "okay";
+	disable-over-current;
 };
 
 &usb1 {
@@ -193,11 +194,6 @@
 		compatible = "dallas,ds1308";
 		reg = <0x68>;
 	};
-
-	usb2517b@2c {
-		compatible = "microchip,usb2517";
-		reg = <0x2c>;
-        };
 
 };
 
