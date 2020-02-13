@@ -24,6 +24,7 @@
 		serial0 = &uart0;
 		serial2 = &uart2;
 		ethernet0 = &gmac0;
+		ethernet1 = &gmac1;
 	};
 
 	chosen {
@@ -67,6 +68,23 @@
 			clock-frequency = <125000000>;
 			status = "disabled";
 		};
+
+		gmii_to_sgmii: phy@0x800006000 {
+			compatible = "altr,gmii-to-sgmii-2.0";
+			reg = <0x00000001 0x00000000 0x00000040>,
+				<0x00000001 0x00000040 0x00000008>;
+			reg-names = "eth_tse_control_port", "gmii_to_sgmii_adapter_avalon_slave";
+			//clocks = <&sgmii_1_clk_0 &gmac1 1 &sgmii_1_clk_125 &sgmii_1_clk_125>;
+			//clocks = <&sgmii_1_clk_0 &clkmgr STRATIX10_EMAC1_CLK &sgmii_1_clk_125 &sgmii_1_clk_125>;
+			//clock-names = "clock_in", "emac_gtx_clk", "tse_pcs_ref_clk_clock_connection", "tse_rx_cdr_refclk";
+		}; //end phy@0x100000040 (gmii_to_sgmii)
+
+
+		socfpga_axi_setup: stmmac-axi-config {
+			snps,wr_osr_lmt = <0x0000000f>; /* appended from boardinfo */
+			snps,rd_osr_lmt = <0x0000000f>; /* appended from boardinfo */
+			snps,blen = <0 0 0 0 16 0 0>;   /* appended from boardinfo */
+		}; //end stmmac-axi-config (socfpga_axi_setup)
 
 		firmware {
 			svc {
@@ -125,11 +143,27 @@
 
 
 &gmac1 {
-	status = "okay";
+	compatible = "altr,socfpga-stmmac", "snps,dwmac-3.74a", "snps,dwmac";
+	reg = <0xff802000 0x2000>;
+	interrupts = <0 91 4>;
+	interrupt-names = "macirq";
+	mac-address = [00 00 00 00 00 00];
+	resets = <&rst EMAC1_RESET>, <&rst EMAC1_OCP_RESET>;
+	reset-names = "stmmaceth", "stmmaceth-ocp";
+	clocks = <&clkmgr STRATIX10_EMAC1_CLK>;
+	clock-names = "stmmaceth";
+	tx-fifo-depth = <16384>;
+	rx-fifo-depth = <16384>;
+	snps,multicast-filter-bins = <256>;
+	altr,sysmgr-syscon = <&sysmgr 0x48 0>;
+	snps,perfect-filter-entries = <128>;
+	altr,gmii-to-sgmii-converter = <&gmii_to_sgmii>;
+	altr,gmii_to_sgmii_converter = <&gmii_to_sgmii>;
 	phy-mode = "sgmii";
-	phy-handle = <&phy1>;
-	altr,sysmgr-syscon = <&sysmgr 0x00000048 0>;
+	address-bits = <48>;
 	max-frame-size = <9000>;
+	snps,axi-config = <&socfpga_axi_setup>;
+	status = "okay";
 
 	mdio1 {
 		#address-cells = <1>;
