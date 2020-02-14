@@ -164,16 +164,6 @@
 	max-frame-size = <9000>;
 	snps,axi-config = <&socfpga_axi_setup>;
 	status = "okay";
-
-	mdio1 {
-		#address-cells = <1>;
-		#size-cells = <0>;
-		compatible = "snps,dwmac-mdio";
-		phy1: ethernet-phy@1 {
-			reg = <4>;
-			compatible = "marvell,88E1111", "ethernet-phy-ieee802.3-c22";
-		};
-	};
 };
 
 &mmc {
