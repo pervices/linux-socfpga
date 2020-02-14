@@ -162,11 +162,6 @@
 	status = "disabled";
 };
 
-&uart2 {
-	//fifo-size = <128>;
-	status = "disabled";
-};
-
 &usb0 {
 	status = "okay";
 	disable-over-current;
