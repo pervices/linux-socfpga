@@ -50,7 +50,7 @@
 			};
 		};
 
-		gmii_to_sgmii: phy@0x800006000 {
+		gmii_to_sgmii: phy@0x80006000 {
 			compatible = "altr,gmii-to-sgmii-2.0";
 			reg = <0x80006000 0x00000040>,
 				<0x80006040 0x00000008>;
