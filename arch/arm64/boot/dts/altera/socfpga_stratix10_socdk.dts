@@ -209,6 +209,37 @@
 		reg = <0x68>;
 	};
 
+	ads1015@4b {
+		compatible = "ti,ads1015";
+		reg = <0x4b>;
+		#address-cells = <0x1>;
+		#size-cells = <0x0>;
+		status = "okay";
+
+		channel@4 {
+			reg = <0x4>;
+			ti,gain = <0x1>;
+			ti,datarate = <0x4>;
+		};
+
+		channel@5 {
+			reg = <0x5>;
+			ti,gain = <0x1>;
+			ti,datarate = <0x4>;
+		};
+
+		channel@6 {
+			reg = <0x6>;
+			ti,gain = <0x1>;
+			ti,datarate = <0x4>;
+		};
+
+		channel@7 {
+			reg = <0x7>;
+			ti,gain = <0x1>;
+			ti,datarate = <0x4>;
+		};
+	};
 };
 
 &i2c4 {
@@ -218,6 +249,37 @@
 	i2c-sda-falling-time-ns = <300>;  /* hcnt */
 	i2c-sdl-falling-time-ns = <300>;  /* lcnt */
 
+	ads1015@49 {
+		compatible = "ti,ads1015";
+		reg = <0x49>;
+		#address-cells = <0x1>;
+		#size-cells = <0x0>;
+		status = "okay";
+
+		channel@4 {
+			reg = <0x4>;
+			ti,gain = <0x1>;
+			ti,datarate = <0x4>;
+		};
+
+		channel@5 {
+			reg = <0x5>;
+			ti,gain = <0x1>;
+			ti,datarate = <0x4>;
+		};
+
+		channel@6 {
+			reg = <0x6>;
+			ti,gain = <0x1>;
+			ti,datarate = <0x4>;
+		};
+
+		channel@7 {
+			reg = <0x7>;
+			ti,gain = <0x1>;
+			ti,datarate = <0x4>;
+		};
+	};
 };
 
 &i2c1 {
@@ -249,67 +311,6 @@
 	};
 
 };
-
-&spi0 {
-	status = "disabled";
-	// max14830@0 {
-	// 	status = "okay";
-	// 	compatible = "maxim,max14830";
-	// 	reg = <0x0>;
-	// 	spi-max-frequency = <2000000>;
-	// 	clocks = <&spi_uart_clock>;
-	// 	clock-names = "osc";
-	// 	interrupt-parent = <&porta>;
-	// 	// pin 8 (index starting at 0) of porta
-	// 	// (IOA_9) is an Edge-Sensitive Active-Low interrupt
-	// 	interrupts = <8 IRQ_TYPE_EDGE_FALLING>;
-	// 	gpio-controller;
-	// 	#gpio-cells = <2>;
-	// };
-	// max14830@1 {
-	// 	status = "okay";
-	// 	compatible = "maxim,max14830";
-	// 	reg = <0x1>;
-	// 	spi-max-frequency = <2000000>;
-	// 	clocks = <&spi_uart_clock>;
-	// 	clock-names = "osc";
-	// 	interrupt-parent = <&porta>;
-	// 	// pin 10 (index starting at 0) of porta
-	// 	// (IOA_11) is an Edge-Sensitive Active-Low interrupt
-	// 	interrupts = <10 IRQ_TYPE_EDGE_FALLING>;
-	// 	gpio-controller;
-	// 	#gpio-cells = <2>;
-	// };
-	// max14830@2 {
-	// 	status = "okay";
-	// 	compatible = "maxim,max14830";
-	// 	reg = <0x2>;
-	// 	spi-max-frequency = <2000000>;
-	// 	clocks = <&spi_uart_clock>;
-	// 	clock-names = "osc";
-	// 	interrupt-parent = <&portb>;
-	// 	// pin 15 (index starting at 0) of portb
-	// 	// (IOB_16) is an Edge-Sensitive Active-Low interrupt
-	// 	interrupts = <15 IRQ_TYPE_EDGE_FALLING>;
-	// 	gpio-controller;
-	// 	#gpio-cells = <2>;
-	// };
-	// max14830@3 {
-	// 	status = "okay";
-	// 	compatible = "maxim,max14830";
-	// 	reg = <0x3>;
-	// 	spi-max-frequency = <2000000>;
-	// 	clocks = <&spi_uart_clock>;
-	// 	clock-names = "osc";
-	// 	interrupt-parent = <&portb>;
-	// 	// pin 17 (index starting at 0) of portb
-	// 	// (IOB_18) is an Edge-Sensitive Active-Low interrupt
-	// 	interrupts = <17 IRQ_TYPE_EDGE_FALLING>;
-	// 	gpio-controller;
-	// 	#gpio-cells = <2>;
-	// };
-};
-
 
 &qspi {
 	status = "okay";
