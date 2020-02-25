@@ -59,13 +59,14 @@
 			#address-cells = <2>;
 			#size-cells = <1>;
 			#clock-cells = <0>;
-			ranges = <>;
+			ranges = <0x00000000 0x00000000 0x80006000 0x00000040>,
+				 <0x00000000 0x00000040 0x80006040 0x00000008>;
 
 			gmii_to_sgmii: phy@0x80006000 {
 				compatible = "altr,gmii-to-sgmii-2.0";
 				#address-cells = <1>;
-				reg = <0x80006000 0x00000040>,
-					<0x80006040 0x00000008>;
+				reg = <0x00000000 0x00000000 0x00000040>,
+				      <0x00000000 0x00000040 0x00000008>;
 				reg-names = "eth_tse_control_port", "gmii_to_sgmii_adapter_avalon_slave";
 				//clocks = <&sgmii_1_clk_0 &gmac1 1 &sgmii_1_clk_125 &sgmii_1_clk_125>;
 				//clocks = <&sgmii_1_clk_0 &clkmgr STRATIX10_EMAC1_CLK &sgmii_1_clk_125 &sgmii_1_clk_125>;
