@@ -62,9 +62,8 @@
 			ranges = <0x00000000 0x00000000 0x80006000 0x00000040>,
 				 <0x00000000 0x00000040 0x80006040 0x00000008>;
 
-			gmii_to_sgmii: phy@0x80006000 {
+			gmii_to_sgmii: phy@0x000000040 {
 				compatible = "altr,gmii-to-sgmii-2.0";
-				#address-cells = <1>;
 				reg = <0x00000000 0x00000000 0x00000040>,
 				      <0x00000000 0x00000040 0x00000008>;
 				reg-names = "eth_tse_control_port", "gmii_to_sgmii_adapter_avalon_slave";
