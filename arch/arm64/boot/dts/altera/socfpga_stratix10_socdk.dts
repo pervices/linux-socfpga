@@ -197,7 +197,7 @@
 	i2c-sda-falling-time-ns = <300>;  /* hcnt */
 	i2c-sdl-falling-time-ns = <300>;  /* lcnt */
 
-	pca9539@74 {
+	dig_pca@74 {
 		compatible = "nxp,pca9539";
 		reg = <0x74>;
 		gpio-controller;
@@ -289,21 +289,21 @@
 	i2c-sda-falling-time-ns = <300>;  /* hcnt */
 	i2c-sdl-falling-time-ns = <300>;  /* lcnt */
 
-	pca9539@74 {
+	bp_pwr@74 {
 		compatible = "nxp,pca9539";
 		reg = <0x74>;
 		gpio-controller;
 		#gpio-cells = <2>;
 	};
 
-	pca9539@75 {
+	bp_bg@75 {
 		compatible = "nxp,pca9539";
 		reg = <0x75>;
 		gpio-controller;
 		#gpio-cells = <2>;
 	};
 
-	pca9539@76 {
+	bp_gle@76 {
 		compatible = "nxp,pca9539";
 		reg = <0x76>;
 		gpio-controller;
