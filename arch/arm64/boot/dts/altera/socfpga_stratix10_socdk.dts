@@ -12,29 +12,10 @@
 		serial0 = &uart0;
 		ethernet0 = &gmac0;
 		ethernet1 = &gmac1;
-		ethernet2 = &gmac2;
 	};
 
 	chosen {
 		stdout-path = "serial0:115200n8";
-	};
-
-	leds {
-		compatible = "gpio-leds";
-		hps0 {
-			label = "hps_led0";
-			gpios = <&portb 20 GPIO_ACTIVE_HIGH>;
-		};
-
-		hps1 {
-			label = "hps_led1";
-			gpios = <&portb 19 GPIO_ACTIVE_HIGH>;
-		};
-
-		hps2 {
-			label = "hps_led2";
-			gpios = <&portb 21 GPIO_ACTIVE_HIGH>;
-		};
 	};
 
 	memory {
@@ -53,7 +34,7 @@
 	soc {
 		clocks {
 			osc1 {
-				clock-frequency = <25000000>;
+				clock-frequency = <125000000>;
 			};
 		};
 
@@ -67,7 +48,50 @@
 					     <15 4>;
 			};
 		};
+
+		s10_hps_bridges: bridge@80000000 {
+			compatible = "altr,bridge-19.1", "simple-bus";
+			reg =   <0x80000000 0x00008000>;
+			reg-names = "axi_h2f";
+			//clocks = <&iopll_0 1 &clk_0 &dp_0_video_pll 3 &iopll_0 0>;
+			//clock-names = "h2f_axi_clock", "h2f_lw_axi_clock", "f2sdram0_clock", "f2sdram2_clock";
+			#address-cells = <2>;
+			#size-cells = <1>;
+			#clock-cells = <0>;
+			ranges = <0x00000000 0x00000000 0x80006000 0x00000040>,
+				 <0x00000000 0x00000040 0x80006040 0x00000008>;
+
+			gmii_to_sgmii: phy@0x000000040 {
+				compatible = "altr,gmii-to-sgmii-2.0";
+				reg = <0x00000000 0x00000000 0x00000040>,
+				      <0x00000000 0x00000040 0x00000008>;
+				reg-names = "eth_tse_control_port", "gmii_to_sgmii_adapter_avalon_slave";
+				//clocks = <&sgmii_1_clk_0 &gmac1 1 &sgmii_1_clk_125 &sgmii_1_clk_125>;
+				//clocks = <&sgmii_1_clk_0 &clkmgr STRATIX10_EMAC1_CLK &sgmii_1_clk_125 &sgmii_1_clk_125>;
+				//clock-names = "clock_in", "emac_gtx_clk", "tse_pcs_ref_clk_clock_connection", "tse_rx_cdr_refclk";
+			}; //end phy@0x100000040 (gmii_to_sgmii)
+
+		};
+
+
+		socfpga_axi_setup: stmmac-axi-config {
+			snps,wr_osr_lmt = <0x0000000f>; /* appended from boardinfo */
+			snps,rd_osr_lmt = <0x0000000f>; /* appended from boardinfo */
+			snps,blen = <0 0 0 0 16 0 0>;   /* appended from boardinfo */
+		}; //end stmmac-axi-config (socfpga_axi_setup)
+
+		firmware {
+			svc {
+				rsu {
+					compatible = "intel,stratix10-rsu";
+				};
+			};
+		};
 	};
+};
+
+&gpio0 {
+	status = "okay";
 };
 
 &gpio1 {
@@ -78,7 +102,6 @@
 	status = "okay";
 	phy-mode = "rgmii";
 	phy-handle = <&phy0>;
-
 	max-frame-size = <9000>;
 
 	mdio0 {
@@ -88,20 +111,37 @@
 		phy0: ethernet-phy@0 {
 			reg = <4>;
 
-			txd0-skew-ps = <0>; /* -420ps */
-			txd1-skew-ps = <0>; /* -420ps */
-			txd2-skew-ps = <0>; /* -420ps */
-			txd3-skew-ps = <0>; /* -420ps */
-			rxd0-skew-ps = <420>; /* 0ps */
-			rxd1-skew-ps = <420>; /* 0ps */
-			rxd2-skew-ps = <420>; /* 0ps */
-			rxd3-skew-ps = <420>; /* 0ps */
-			txen-skew-ps = <0>; /* -420ps */
-			txc-skew-ps = <900>; /* 0ps */
-			rxdv-skew-ps = <420>; /* 0ps */
-			rxc-skew-ps = <1680>; /* 780ps */
+			/*
+			 * All skews are offset since hardware skew values for the ksz9031
+			 * range from a negative skew to a positive skew.
+			 * See the micrel-ksz90x1.txt Documentation file for details.
+			 */
+			 txd0-skew-ps = <0>; /* -420ps */
+			 txd1-skew-ps = <0>; /* -420ps */
+			 txd2-skew-ps = <0>; /* -420ps */
+			 txd3-skew-ps = <0>; /* -420ps */
+			 txen-skew-ps = <0>; /* -420ps */
+			 txc-skew-ps  = <1860>; /* 960ps */
+
+			 rxd0-skew-ps = <720>; /*  300ps */
+			 rxd1-skew-ps = <720>; /*  300ps */
+			 rxd2-skew-ps = <720>; /*  300ps */
+			 rxd3-skew-ps = <720>; /*  300ps */
+			 rxdv-skew-ps = <720>; /*  300ps */
+			 rxc-skew-ps  = <0>;   /* -900ps */
 		};
 	};
+};
+
+&gmac1 {
+	snps,perfect-filter-entries = <128>;
+	altr,gmii-to-sgmii-converter = <&gmii_to_sgmii>;
+	altr,gmii_to_sgmii_converter = <&gmii_to_sgmii>;
+	phy-mode = "sgmii";
+	address-bits = <48>;
+	max-frame-size = <9000>;
+	snps,axi-config = <&socfpga_axi_setup>;
+	status = "okay";
 };
 
 &mmc {
@@ -110,6 +150,10 @@
 	cap-mmc-highspeed;
 	broken-cd;
 	bus-width = <4>;
+};
+
+&nand {
+	status = "okay";
 };
 
 &uart0 {
@@ -125,33 +169,126 @@
 	status = "okay";
 };
 
-&i2c1 {
+&i2c3 {
 	status = "okay";
 	clock-frequency = <100000>;
-	i2c-sda-falling-time-ns = <890>;  /* hcnt */
-	i2c-sdl-falling-time-ns = <890>;  /* lcnt */
+	i2c-sda-hold-time-ns = <100>;
+	i2c-sda-falling-time-ns = <300>;  /* hcnt */
+	i2c-sdl-falling-time-ns = <300>;  /* lcnt */
 
-	adc@14 {
-		compatible = "lltc,ltc2497";
-		reg = <0x14>;
-		vref-supply = <&ref_033v>;
-	};
-
-	temp@4c {
-		compatible = "maxim,max1619";
-		reg = <0x4c>;
-	};
-
-	eeprom@51 {
-		compatible = "atmel,24c32";
-		reg = <0x51>;
-		pagesize = <32>;
+	dig_pca@74 {
+		compatible = "nxp,pca9539";
+		reg = <0x74>;
+		gpio-controller;
+		#gpio-cells = <2>;
 	};
 
 	rtc@68 {
-		compatible = "dallas,ds1339";
+		compatible = "dallas,ds1308";
 		reg = <0x68>;
 	};
+
+	ads1015@4b {
+		compatible = "ti,ads1015";
+		reg = <0x4b>;
+		#address-cells = <0x1>;
+		#size-cells = <0x0>;
+		status = "okay";
+
+		channel@4 {
+			reg = <0x4>;
+			ti,gain = <0x1>;
+			ti,datarate = <0x4>;
+		};
+
+		channel@5 {
+			reg = <0x5>;
+			ti,gain = <0x1>;
+			ti,datarate = <0x4>;
+		};
+
+		channel@6 {
+			reg = <0x6>;
+			ti,gain = <0x1>;
+			ti,datarate = <0x4>;
+		};
+
+		channel@7 {
+			reg = <0x7>;
+			ti,gain = <0x1>;
+			ti,datarate = <0x4>;
+		};
+	};
+};
+
+&i2c4 {
+	status = "okay";
+	clock-frequency = <100000>;
+	i2c-sda-hold-time-ns = <100>;
+	i2c-sda-falling-time-ns = <300>;  /* hcnt */
+	i2c-sdl-falling-time-ns = <300>;  /* lcnt */
+
+	ads1015@49 {
+		compatible = "ti,ads1015";
+		reg = <0x49>;
+		#address-cells = <0x1>;
+		#size-cells = <0x0>;
+		status = "okay";
+
+		channel@4 {
+			reg = <0x4>;
+			ti,gain = <0x1>;
+			ti,datarate = <0x4>;
+		};
+
+		channel@5 {
+			reg = <0x5>;
+			ti,gain = <0x1>;
+			ti,datarate = <0x4>;
+		};
+
+		channel@6 {
+			reg = <0x6>;
+			ti,gain = <0x1>;
+			ti,datarate = <0x4>;
+		};
+
+		channel@7 {
+			reg = <0x7>;
+			ti,gain = <0x1>;
+			ti,datarate = <0x4>;
+		};
+	};
+};
+
+&i2c1 {
+	status = "okay";
+	clock-frequency = <100000>;
+	i2c-sda-hold-time-ns = <100>;
+	i2c-sda-falling-time-ns = <300>;  /* hcnt */
+	i2c-sdl-falling-time-ns = <300>;  /* lcnt */
+
+	bp_pwr@74 {
+		compatible = "nxp,pca9539";
+		reg = <0x74>;
+		gpio-controller;
+		#gpio-cells = <2>;
+	};
+
+	bp_bg@75 {
+		compatible = "nxp,pca9539";
+		reg = <0x75>;
+		gpio-controller;
+		#gpio-cells = <2>;
+	};
+
+	bp_gle@76 {
+		compatible = "nxp,pca9539";
+		reg = <0x76>;
+		gpio-controller;
+		#gpio-cells = <2>;
+	};
+
 };
 
 &qspi {
@@ -160,7 +297,7 @@
 		#size-cells = <1>;
 		compatible = "n25q00a";
 		reg = <0>;
-		spi-max-frequency = <100000000>;
+		spi-max-frequency = <50000000>;
 
 		m25p,fast-read;
 		cdns,page-size = <256>;
@@ -178,12 +315,7 @@
 
 			qspi_boot: partition@0 {
 				label = "Boot and fpga data";
-				reg = <0x0 0x034B0000>;
-			};
-
-			qspi_rootfs: partition@4000000 {
-				label = "Root Filesystem - JFFS2";
-				reg = <0x034B0000 0x0EB50000>;
+				reg = <0x0 0x40000000>;
 			};
 		};
 	};
