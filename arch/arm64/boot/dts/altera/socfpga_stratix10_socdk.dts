@@ -240,6 +240,12 @@
 			ti,datarate = <0x4>;
 		};
 	};
+	eeprom0@50 {
+		compatible = "atmel,24c08";
+		reg = <0x50>;
+		pagesize = <0x10>;
+		address-width = <0x8>;
+	};
 };
 
 &i2c4 {
@@ -280,6 +286,12 @@
 			ti,datarate = <0x4>;
 		};
 	};
+	pwr_pca@70 {
+		compatible = "nxp,pca9538";
+		reg = <0x70>;
+		gpio-controller;
+		#gpio-cells = <2>;
+	};
 };
 
 &i2c1 {
@@ -308,6 +320,13 @@
 		reg = <0x76>;
 		gpio-controller;
 		#gpio-cells = <2>;
+	};
+	
+	eeprom0@50 {
+		compatible = "atmel,24c08";
+		reg = <0x50>;
+		pagesize = <0x10>;
+		address-width = <0x8>;
 	};
 
 };
