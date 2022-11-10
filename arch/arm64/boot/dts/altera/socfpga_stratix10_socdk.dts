@@ -286,12 +286,12 @@
 			ti,datarate = <0x4>;
 		};
 	};
-	pwr_pca@70 {
+	/*pwr_pca@70 {
 		compatible = "nxp,pca9538";
 		reg = <0x70>;
 		gpio-controller;
 		#gpio-cells = <2>;
-	};
+	};*/
 };
 
 &i2c1 {
