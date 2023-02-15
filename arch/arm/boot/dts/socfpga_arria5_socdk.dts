@@ -79,9 +79,13 @@
 	rxd2-skew-ps = <0>;
 	rxd3-skew-ps = <0>;
 	txen-skew-ps = <0>;
-	txc-skew-ps = <2600>;
+	txc-skew-ps = <3000>;
 	rxdv-skew-ps = <0>;
-	rxc-skew-ps = <2000>;
+	rxc-skew-ps = <3000>;
+	txd0-skew-ps = <0>;
+	txd1-skew-ps = <0>;
+	txd2-skew-ps = <0>;
+	txd3-skew-ps = <0>;
 	max-frame-size = <3800>;
 };
 
@@ -108,23 +112,81 @@
 	i2c-sda-falling-time-ns = <5000>;
 	i2c-scl-falling-time-ns = <5000>;
 
-	lcd: lcd@28 {
-		compatible = "newhaven,nhd-0216k3z-nsw-bbw";
-		reg = <0x28>;
-		height = <2>;
-		width = <16>;
-		brightness = <8>;
-	};
-
-	eeprom@51 {
-		compatible = "atmel,24c32";
-		reg = <0x51>;
-		pagesize = <32>;
-	};
-
 	rtc@68 {
 		compatible = "dallas,ds1339";
 		reg = <0x68>;
+	};
+	
+	ads1015@48 {
+		compatible = "ti,ads1015";
+		reg = <0x48>;
+		#address-cells = <0x1>;
+		#size-cells = <0x0>;
+		status = "okay";
+
+		channel@4 {
+			reg = <0x4>;
+			ti,gain = <0x1>;
+			ti,datarate = <0x4>;
+		};
+
+		channel@5 {
+			reg = <0x5>;
+			ti,gain = <0x1>;
+			ti,datarate = <0x4>;
+		};
+
+		channel@6 {
+			reg = <0x6>;
+			ti,gain = <0x1>;
+			ti,datarate = <0x4>;
+		};
+
+		channel@7 {
+			reg = <0x7>;
+			ti,gain = <0x1>;
+			ti,datarate = <0x4>;
+		};
+	};
+
+	ads1015@4b {
+		compatible = "ti,ads1015";
+		reg = <0x4b>;
+		#address-cells = <0x1>;
+		#size-cells = <0x0>;
+		status = "okay";
+
+		channel@4 {
+			reg = <0x4>;
+			ti,gain = <0x1>;
+			ti,datarate = <0x4>;
+		};
+
+		channel@5 {
+			reg = <0x5>;
+			ti,gain = <0x1>;
+			ti,datarate = <0x4>;
+		};
+
+		channel@6 {
+			reg = <0x6>;
+			ti,gain = <0x1>;
+			ti,datarate = <0x4>;
+		};
+
+		channel@7 {
+			reg = <0x7>;
+			ti,gain = <0x1>;
+			ti,datarate = <0x4>;
+		};
+	};
+
+	ads1015@49 {
+		compatible = "ti,ads1015";
+		reg = <0x49>;
+		#address-cells = <0x1>;
+		#size-cells = <0x0>;
+		status = "okay";
 	};
 };
 
@@ -135,7 +197,7 @@
 };
 
 &qspi {
-	status = "okay";
+	status = "disabled";
 	flash0: n25q512a@0 {
 		#address-cells = <1>;
 		#size-cells = <1>;
@@ -171,4 +233,23 @@
 
 &usb1 {
 	status = "okay";
+};
+
+&nand {
+	status = "okay";
+	
+	partition@nand-boot {
+		label = "Bootloader";
+		reg = <0x0 0x2440000>;
+	};
+
+	partition@nand-rootfs {
+		label = "Filesystem";
+		reg = <0x2440000 0x345c0000>;
+	};
+
+	partition@nand-fpga {
+		label = "FPGA";
+		reg = <0x36a00000 0x9600000>;
+	};
 };
