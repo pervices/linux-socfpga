@@ -237,19 +237,4 @@
 
 &nand {
 	status = "okay";
-	
-	partition@nand-boot {
-		label = "Bootloader";
-		reg = <0x0 0x2440000>;
-	};
-
-	partition@nand-rootfs {
-		label = "Filesystem";
-		reg = <0x2440000 0x345c0000>;
-	};
-
-	partition@nand-fpga {
-		label = "FPGA";
-		reg = <0x36a00000 0x9600000>;
-	};
 };
