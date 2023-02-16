@@ -26,7 +26,7 @@
 		stdout-path = "serial0:115200n8";
 	};
 
-	memory@0 {
+	memory {
 		name = "memory";
 		device_type = "memory";
 		reg = <0x0 0x40000000>; /* 1GB */
@@ -37,6 +37,13 @@
 		* to be added to the gmac1 device tree blob.
 		*/
 		ethernet0 = &gmac1;
+	};
+
+	regulator_3_3v: 3-3-v-regulator {
+		compatible = "regulator-fixed";
+		regulator-name = "3.3V";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
 	};
 
 	leds {
@@ -61,13 +68,6 @@
 			gpios = <&porta 18 1>;
 		};
 	};
-
-	regulator_3_3v: 3-3-v-regulator {
-		compatible = "regulator-fixed";
-		regulator-name = "3.3V";
-		regulator-min-microvolt = <3300000>;
-		regulator-max-microvolt = <3300000>;
-	};
 };
 
 &gmac1 {
@@ -79,9 +79,14 @@
 	rxd2-skew-ps = <0>;
 	rxd3-skew-ps = <0>;
 	txen-skew-ps = <0>;
-	txc-skew-ps = <2600>;
+	txc-skew-ps = <3000>;
 	rxdv-skew-ps = <0>;
-	rxc-skew-ps = <2000>;
+	rxc-skew-ps = <3000>;
+	txd0-skew-ps = <0>;
+	txd1-skew-ps = <0>;
+	txd2-skew-ps = <0>;
+	txd3-skew-ps = <0>;
+	max-frame-size = <3800>;
 };
 
 &gpio0 {
@@ -98,7 +103,7 @@
 
 &i2c0 {
 	status = "okay";
-	clock-frequency = <100000>;
+	speed-mode = <0>;
 
 	/*
 	 * adjust the falling times to decrease the i2c frequency to 50Khz
@@ -107,23 +112,81 @@
 	i2c-sda-falling-time-ns = <5000>;
 	i2c-scl-falling-time-ns = <5000>;
 
-	lcd: lcd@28 {
-		compatible = "newhaven,nhd-0216k3z-nsw-bbw";
-		reg = <0x28>;
-		height = <2>;
-		width = <16>;
-		brightness = <8>;
-	};
-
-	eeprom@51 {
-		compatible = "atmel,24c32";
-		reg = <0x51>;
-		pagesize = <32>;
-	};
-
 	rtc@68 {
 		compatible = "dallas,ds1339";
 		reg = <0x68>;
+	};
+	
+	ads1015@48 {
+		compatible = "ti,ads1015";
+		reg = <0x48>;
+		#address-cells = <0x1>;
+		#size-cells = <0x0>;
+		status = "okay";
+
+		channel@4 {
+			reg = <0x4>;
+			ti,gain = <0x1>;
+			ti,datarate = <0x4>;
+		};
+
+		channel@5 {
+			reg = <0x5>;
+			ti,gain = <0x1>;
+			ti,datarate = <0x4>;
+		};
+
+		channel@6 {
+			reg = <0x6>;
+			ti,gain = <0x1>;
+			ti,datarate = <0x4>;
+		};
+
+		channel@7 {
+			reg = <0x7>;
+			ti,gain = <0x1>;
+			ti,datarate = <0x4>;
+		};
+	};
+
+	ads1015@4b {
+		compatible = "ti,ads1015";
+		reg = <0x4b>;
+		#address-cells = <0x1>;
+		#size-cells = <0x0>;
+		status = "okay";
+
+		channel@4 {
+			reg = <0x4>;
+			ti,gain = <0x1>;
+			ti,datarate = <0x4>;
+		};
+
+		channel@5 {
+			reg = <0x5>;
+			ti,gain = <0x1>;
+			ti,datarate = <0x4>;
+		};
+
+		channel@6 {
+			reg = <0x6>;
+			ti,gain = <0x1>;
+			ti,datarate = <0x4>;
+		};
+
+		channel@7 {
+			reg = <0x7>;
+			ti,gain = <0x1>;
+			ti,datarate = <0x4>;
+		};
+	};
+
+	ads1015@49 {
+		compatible = "ti,ads1015";
+		reg = <0x49>;
+		#address-cells = <0x1>;
+		#size-cells = <0x0>;
+		status = "okay";
 	};
 };
 
@@ -134,16 +197,14 @@
 };
 
 &qspi {
-	status = "okay";
-
-	flash: flash@0 {
+	status = "disabled";
+	flash0: n25q512a@0 {
 		#address-cells = <1>;
 		#size-cells = <1>;
-		compatible = "n25q256a";
-		reg = <0>;
+		compatible = "n25q512a";
+		reg = <0>;      /* chip select */
 		spi-max-frequency = <100000000>;
 
-		m25p,fast-read;
 		cdns,page-size = <256>;
 		cdns,block-size = <16>;
 		cdns,read-delay = <4>;
@@ -159,13 +220,21 @@
 		};
 
 		partition@qspi-rootfs {
-			/* 120MB for jffs2 data. */
+			/* 56MB for jffs2 data. */
 			label = "Flash 0 jffs2 Filesystem";
-			reg = <0x800000 0x7800000>;
+			reg = <0x800000 0x3800000>;
 		};
 	};
 };
 
+&uart0 {
+	status = "okay";
+};
+
 &usb1 {
+	status = "okay";
+};
+
+&nand {
 	status = "okay";
 };
