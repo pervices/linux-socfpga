@@ -322,12 +322,12 @@
 		#gpio-cells = <2>;
 	};
 	
-	eeprom0@50 {
+	/*eeprom0@50 {
 		compatible = "atmel,24c08";
 		reg = <0x50>;
 		pagesize = <0x10>;
 		address-width = <0x8>;
-	};
+	};*/
 
 };
 
